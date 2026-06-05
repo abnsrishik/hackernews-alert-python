@@ -1,0 +1,20 @@
+name: Hacker News Alert
+on:
+  schedule:
+    - cron: '30 2 * * *'  # 2:30 AM UTC = 8:00 AM IST
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - run: pip install requests beautifulsoup4
+      - run: python main.py
+        env:
+          MY_EMAIL: ${{ secrets.MY_EMAIL }}
+          MY_PASS: ${{ secrets.MY_PASS }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
